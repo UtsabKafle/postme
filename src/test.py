@@ -4,17 +4,17 @@ import os
 
 class post:
     def __init__(self):
-        self.photo_mode = {
+        self.photo_modes = {
             'facebook':{
-            'landscape':(630,1200),
-            'potrait':(1200,630),
-            'stories':(1920,1080),
+            'landscape':(1200,630),
+            'potrait':(630,1200),
+            'stories':(1080,1920),
             'square':(1080,1080)
                 },
             'instagram':{
-                'landscape':(566,1080),
-                'potrait':(1350,1080),
-                'stories':(1920,1080),
+                'landscape':(1080,566),
+                'potrait':(1080,1350),
+                'stories':(1080,1920),
                 'square':(1080,1080)
                 }
         }
@@ -30,7 +30,7 @@ class post:
             name = i.split(".")[0]
             self.fonts_[name] = f"./src/fonts/{i}"
         self.all_fonts = self.fonts_.keys()
-
+        print(f"fonts available: {self.fonts_.keys()}")
     def load_fonts(self):
         all_fonts = os.listdir('./src/fonts')
         self.fonts_ = {}
@@ -45,10 +45,12 @@ class post:
         for i in self.all_fonts:
             if fon in i:
                 self.font = self.fonts_[i]
+        return self.font
 
     def choose_font_size(self):
         siz = int(input("enter the font size: "))
         self.font_size = siz
+        return self.font_size
 
     def choose_mode(self):
         inp = input(f"enter social site [options: {self.photo_modes.keys()}] :")
@@ -60,12 +62,52 @@ class post:
                         self.size = self.photo_modes[i][j]
         return self.size
     
-    def draw(self):
-        jii = Image.new('RGB',(1024,700),color=(5,5,5))
-        font = ImageFont.truetype(self.font,self.font_size)
-        wr = ImageDraw.Draw(jii)
-        wr.text((512,500),"we rock",fill=(255,255,255),font=font)
-        jii.save('file.png')
+    def choose_color(self):
+        r = int(input("enter red value [max:255]"))
+        g = int(input("enter green value [max:255]"))
+        b = int(input("enter blue value [max: 255]"))
+        self.bg_color = (r,g,b)
+        return self.bg_color
 
-        jii.show()
+    def select_font(self,name=None,size=None):
+        self.font = ImageFont.truetype(name,size)
+        return self.font
 
+    def draw(self,size=(1024,720),color=(0,0,0),):
+        self.jii = Image.new('RGB',size,color=color)
+        self.wr = ImageDraw.Draw(self.jii)
+
+    
+    def draw_wm(self,text="your water mark",position=(0,0),fill=(255,255,255),font=None):
+        self.wr.text(position,text,fill=fill,font=font)
+    def draw_header(self):
+        self.wr.text((512,20),"your sweet heading",fill=(255,255,255),font=self.font)
+
+    def draw_content(self):
+        self.wr.text((20,200),"They just do it brah. fucking do it.",fill=(255,255,255))
+    def show(self):
+        self.jii.show()
+    def save(self,file_name):
+        self.jii.save(file_name)
+
+def main():
+    p = post()
+    logo_font = p.choose_font()
+    print(logo_font)
+    # header_font = p.choose_font()
+    # content_font = p.choose_font()
+    logo_f_size = p.choose_font_size()
+    logo_font = p.select_font(logo_font,logo_f_size)
+    # header_f_size = p.choose_font_size()
+    # content_f_size = p.choose_font_size()
+    mode = p.choose_mode()
+    background_color = p.choose_color()
+    p.draw(size=mode,color=background_color)
+    p.draw_wm(text="holy fucking",position=(200,200),font=logo_font)
+    p.draw_wm(text="holy happy",position=(100,200),font=logo_font)
+    p.show()
+    p.save('crap.png')
+
+
+if __name__ == "__main__":
+    main()

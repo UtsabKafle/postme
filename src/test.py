@@ -1,3 +1,4 @@
+from email import header
 from PIL import Image, ImageDraw, ImageFont
 import os
 
@@ -77,14 +78,17 @@ class post:
         self.jii = Image.new('RGB',size,color=color)
         self.wr = ImageDraw.Draw(self.jii)
 
-    
-    def draw_wm(self,text="your water mark",position=(0,0),fill=(255,255,255),font=None):
-        self.wr.text(position,text,fill=fill,font=font)
+    def choose_pos(self):
+        x_cor = int(input("enter the x cordinate"))
+        y_cor = int(input("enter the y-cordinate"))
+        return (x_cor,y_cor)
+    def draw_wm(self,text="your water mark",position=(0,0),fill_=(255,255,255),font_=None):
+        self.wr.text(position,text,fill=fill_,font=font_)
     def draw_header(self):
         self.wr.text((512,20),"your sweet heading",fill=(255,255,255),font=self.font)
 
     def draw_content(self):
-        self.wr.text((20,200),"They just do it brah. fucking do it.",fill=(255,255,255))
+        self.wr.text((20,200),"They just .. ladfjl",fill=(255,255,255))
     def show(self):
         self.jii.show()
     def save(self,file_name):
@@ -92,19 +96,28 @@ class post:
 
 def main():
     p = post()
-    logo_font = p.choose_font()
-    print(logo_font)
-    # header_font = p.choose_font()
-    # content_font = p.choose_font()
-    logo_f_size = p.choose_font_size()
-    logo_font = p.select_font(logo_font,logo_f_size)
-    # header_f_size = p.choose_font_size()
-    # content_f_size = p.choose_font_size()
     mode = p.choose_mode()
+    logo_font = p.choose_font()
+    position_ = p.choose_pos()
     background_color = p.choose_color()
     p.draw(size=mode,color=background_color)
-    p.draw_wm(text="holy fucking",position=(200,200),font=logo_font)
-    p.draw_wm(text="holy happy",position=(100,200),font=logo_font)
+    logo_f_size = p.choose_font_size()
+    logo_font = p.select_font(logo_font,logo_f_size)
+    p.draw_wm(text="@shittypage69",position=position_,font_=logo_font)
+    # p.draw_wm(text="@crap",font_=None)
+    print('logo end -- header')
+    # header_font = p.choose_font()
+    # header_f_size = p.choose_font_size()
+    # header_font = p.select_font(header_font,header_f_size)
+    # position_ = p.choose_pos()
+    p.draw_wm(text="How do computer read 0 and 1?",font_=None)
+    p.show()
+    print('header end -- content')
+    cont_font = p.choose_font()
+    cont_f_size = p.choose_font_size()
+    position_ = p.choose_pos()
+    cont_font = p.select_font(cont_font,cont_f_size)
+    p.draw_wm(text="This is a long process which is carried out by different method and is very good and shitty at the same time, haha watever but. fuck shit crap piss blah blah whatever",position=position_,font=cont_font,)
     p.show()
     p.save('crap.png')
 

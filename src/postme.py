@@ -28,19 +28,20 @@ class postme:
         }
         self.mode = (1080,1080)
         ### scanning the fonts
-        all_fonts = os.listdir('./src/fonts')
+        fonts_dir = "./src/fonts"
+        all_fonts = os.listdir('./fonts')
         self.fonts_ = {}
         for i in all_fonts:
             name = i.split(".")[0]
-            self.fonts_[name] = f"./src/fonts/{i}"
+            self.fonts_[name] = f"./fonts/{i}"
         self.all_fonts = self.fonts_.keys()
         print(f"fonts available: {self.fonts_.keys()}")
     def load_fonts(self):
-        all_fonts = os.listdir('./src/fonts')
+        all_fonts = os.listdir('./fonts')
         self.fonts_ = {}
         for i in all_fonts:
             name = i.split(".")[0]
-            self.fonts_[name] = f"./src/fonts/{i}"
+            self.fonts_[name] = f"./fonts/{i}"
         return self.fonts_
     def choose_font(self):
         print("choose a font. [press enter to use the default one.]")
@@ -111,7 +112,7 @@ class postme:
         words = text.split(" ")
         for i in range(1,len(words)+1):
             if i%10==0:
-                words[i] += "\n"
+                words[i-1] += "\n"
         cont_ = ""
         for i in range(len(words)):
             cont_ += words[i]+" "
